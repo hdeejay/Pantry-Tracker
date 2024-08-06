@@ -125,13 +125,10 @@ export default function Home() {
 
   const fetchPexelsImage = async (query) => {
     try {
-      const response = await axios.get(`https://api.pexels.com/v1/search?query=${query}&per_page=1`, {
-        headers: {
-          Authorization: process.env.NEXT_PUBLIC_PEXELS_API_KEY
-        }
-      });
-      if (response.data && response.data.photos && response.data.photos.length > 0) {
-        return response.data.photos[0].src.medium;
+      const response = await fetch(`/api/pexels?query=${query}`);
+      const data = await response.json();
+      if (data && data.photos && data.photos.length > 0) {
+        return data.photos[0].src.medium;
       }
       console.log("No images found for query:", query);
       return null;
